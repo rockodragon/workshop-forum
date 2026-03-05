@@ -14,19 +14,20 @@ export const listForMessage = query({
 export const toggle = mutation({
   args: {
     messageId: v.id("messages"),
+    userId: v.string(),
     emoji: v.string(),
     author: v.string(),
   },
-  handler: async (ctx, { messageId, emoji, author }) => {
+  handler: async (ctx, { messageId, userId, emoji, author }) => {
     const existing = await ctx.db
       .query("reactions")
       .withIndex("by_message", (q) => q.eq("messageId", messageId))
       .collect();
-    const mine = existing.find((r) => r.emoji === emoji && r.author === author);
+    const mine = existing.find((r) => r.emoji === emoji && r.userId === userId);
     if (mine) {
       await ctx.db.delete(mine._id);
     } else {
-      await ctx.db.insert("reactions", { messageId, emoji, author });
+      await ctx.db.insert("reactions", { messageId, userId, emoji, author });
     }
   },
 });

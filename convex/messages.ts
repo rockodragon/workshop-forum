@@ -29,6 +29,7 @@ export const send = mutation({
   args: {
     channelId: v.id("channels"),
     parentId: v.optional(v.id("messages")),
+    userId: v.string(),
     author: v.string(),
     body: v.string(),
     imageUrl: v.optional(v.string()),
@@ -46,9 +47,12 @@ export const send = mutation({
 export const update = mutation({
   args: {
     messageId: v.id("messages"),
+    userId: v.string(),
     body: v.string(),
   },
-  handler: async (ctx, { messageId, body }) => {
+  handler: async (ctx, { messageId, userId, body }) => {
+    const msg = await ctx.db.get(messageId);
+    if (!msg || msg.userId !== userId) throw new Error("Not allowed");
     await ctx.db.patch(messageId, { body, editedAt: Date.now() });
   },
 });

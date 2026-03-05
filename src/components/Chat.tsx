@@ -9,10 +9,12 @@ import { ComposeBar } from "./ComposeBar";
 export function Chat({
   channelId,
   channelName,
+  userId,
   username,
 }: {
   channelId: Id<"channels">;
   channelName: string;
+  userId: string;
   username: string;
 }) {
   const messages = useQuery(api.messages.list, { channelId });
@@ -40,6 +42,7 @@ export function Chat({
             <Message
               key={msg._id}
               message={msg}
+              userId={userId}
               username={username}
               onOpenThread={() => setThreadParent(msg._id)}
             />
@@ -48,6 +51,7 @@ export function Chat({
         </div>
         <ComposeBar
           channelId={channelId}
+          userId={userId}
           username={username}
           placeholder={`Message #${channelName}...`}
         />
@@ -56,6 +60,7 @@ export function Chat({
         <Thread
           parentId={threadParent}
           channelId={channelId}
+          userId={userId}
           username={username}
           onClose={() => setThreadParent(null)}
         />

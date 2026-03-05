@@ -5,7 +5,17 @@ import { Sidebar } from "./components/Sidebar";
 import { Chat } from "./components/Chat";
 import type { Id } from "../convex/_generated/dataModel";
 
+function getOrCreateUserId() {
+  let id = localStorage.getItem("forum-user-id");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("forum-user-id", id);
+  }
+  return id;
+}
+
 export default function App() {
+  const [userId] = useState(getOrCreateUserId);
   const [username, setUsername] = useState(
     () => localStorage.getItem("forum-username") || "",
   );
@@ -79,6 +89,7 @@ export default function App() {
           <Chat
             channelId={activeChannel}
             channelName={activeChannelName}
+            userId={userId}
             username={username}
           />
         ) : (

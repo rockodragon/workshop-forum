@@ -6,11 +6,13 @@ import type { Id } from "../../convex/_generated/dataModel";
 export function ComposeBar({
   channelId,
   parentId,
+  userId,
   username,
   placeholder,
 }: {
   channelId: Id<"channels">;
   parentId?: Id<"messages">;
+  userId: string;
   username: string;
   placeholder: string;
 }) {
@@ -55,6 +57,7 @@ export function ComposeBar({
     await send({
       channelId,
       parentId,
+      userId,
       author: username,
       body: body.trim() || (pendingFile ? pendingFile.name : ""),
       fileId: pendingFile?.id,

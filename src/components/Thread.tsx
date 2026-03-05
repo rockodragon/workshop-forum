@@ -8,11 +8,13 @@ import { ComposeBar } from "./ComposeBar";
 export function Thread({
   parentId,
   channelId,
+  userId,
   username,
   onClose,
 }: {
   parentId: Id<"messages">;
   channelId: Id<"channels">;
+  userId: string;
   username: string;
   onClose: () => void;
 }) {
@@ -33,13 +35,19 @@ export function Thread({
       </div>
       <div className="messages">
         {replies?.map((msg) => (
-          <Message key={msg._id} message={msg} username={username} />
+          <Message
+            key={msg._id}
+            message={msg}
+            userId={userId}
+            username={username}
+          />
         ))}
         <div ref={endRef} />
       </div>
       <ComposeBar
         channelId={channelId}
         parentId={parentId}
+        userId={userId}
         username={username}
         placeholder="Reply..."
       />

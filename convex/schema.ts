@@ -10,6 +10,7 @@ export default defineSchema({
   messages: defineTable({
     channelId: v.id("channels"),
     parentId: v.optional(v.id("messages")), // for threading
+    userId: v.string(), // browser UUID
     author: v.string(),
     body: v.string(),
     imageUrl: v.optional(v.string()), // optional image/link URL
@@ -23,6 +24,7 @@ export default defineSchema({
 
   reactions: defineTable({
     messageId: v.id("messages"),
+    userId: v.string(),
     emoji: v.string(),
     author: v.string(),
   }).index("by_message", ["messageId"]),

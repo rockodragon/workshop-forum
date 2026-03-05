@@ -7,10 +7,12 @@ const QUICK_EMOJIS = ["👍", "❤️", "🎉", "🤔", "👀"];
 
 export function Message({
   message,
+  userId,
   username,
   onOpenThread,
 }: {
   message: Doc<"messages">;
+  userId: string;
   username: string;
   onOpenThread?: () => void;
 }) {
@@ -39,6 +41,7 @@ export function Message({
     minute: "2-digit",
   });
 
+  const isOwn = message.userId === userId;
   const isImage =
     message.fileName?.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i) ||
     fileUrl?.match(/\.(png|jpg|jpeg|gif|webp|svg)/i);
@@ -47,6 +50,7 @@ export function Message({
     if (!editBody.trim()) return;
     await updateMessage({
       messageId: message._id,
+      userId,
       body: editBody.trim(),
     });
     setEditing(false);
@@ -58,7 +62,7 @@ export function Message({
         <strong className="author">{message.author}</strong>
         <span className="time">{time}</span>
         {message.editedAt && <span className="edited">(edited)</span>}
-        {!editing && (
+        {isOwn && !editing && (
           <button
             className="edit-btn"
             onClick={() => {
@@ -123,6 +127,7 @@ export function Message({
               onClick={() =>
                 toggleReaction({
                   messageId: message._id,
+                  userId,
                   emoji,
                   author: username,
                 })
@@ -140,6 +145,7 @@ export function Message({
                 onClick={() =>
                   toggleReaction({
                     messageId: message._id,
+                    userId,
                     emoji,
                     author: username,
                   })
