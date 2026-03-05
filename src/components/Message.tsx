@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 
-const QUICK_EMOJIS = ["👍", "❤️", "🎉", "🤔", "👀"];
+const QUICK_EMOJIS = ["👍", "❤️", "🎉", "🤔", "👀", "🦞"];
 
 export function Message({
   message,

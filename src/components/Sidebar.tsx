@@ -24,7 +24,9 @@ export function Sidebar({
   return (
     <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
       <div className="sidebar-header">
-        <div className="logo">OpenClaw</div>
+        <div className="logo">
+          <img src="/logo.png" alt="OpenClaw" className="logo-img" /> OpenClaw
+        </div>
       </div>
       <nav className="channel-list">
         {channels?.map((ch) => (

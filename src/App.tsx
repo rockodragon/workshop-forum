@@ -44,7 +44,10 @@ export default function App() {
     return (
       <div className="entry-screen">
         <div className="entry-card">
-          <div className="entry-logo">OpenClaw</div>
+          <div className="entry-logo">
+            <img src="/logo.png" alt="OpenClaw" className="entry-logo-img" />{" "}
+            OpenClaw
+          </div>
           <h1>Workshop Forum</h1>
           <p>Enter your name to join the conversation</p>
           <form

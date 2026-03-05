@@ -36,9 +36,24 @@ body {
   color: var(--accent);
 }
 
+.logo-img {
+  height: 24px;
+  width: auto;
+  vertical-align: middle;
+}
+
 .entry-logo {
   font-size: 1.4rem;
   margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.entry-logo-img {
+  height: 40px;
+  width: auto;
 }
 
 /* Entry screen */
