@@ -25,6 +25,7 @@ export default function App() {
   const [activeChannel, setActiveChannel] = useState<Id<"channels"> | null>(
     null,
   );
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const seed = useMutation(api.channels.seed);
   const channels = useQuery(api.channels.list);
@@ -43,6 +44,7 @@ export default function App() {
     return (
       <div className="entry-screen">
         <div className="entry-card">
+          <div className="entry-logo">OpenClaw</div>
           <h1>Workshop Forum</h1>
           <p>Enter your name to join the conversation</p>
           <form
@@ -75,14 +77,24 @@ export default function App() {
 
   return (
     <div className="app">
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       <Sidebar
         activeChannel={activeChannel}
-        onSelectChannel={setActiveChannel}
+        onSelectChannel={(id) => {
+          setActiveChannel(id);
+          setSidebarOpen(false);
+        }}
         username={username}
         onChangeName={() => {
           localStorage.removeItem("forum-username");
           setEntered(false);
         }}
+        isOpen={sidebarOpen}
       />
       <main className="main">
         {activeChannel ? (
@@ -91,6 +103,7 @@ export default function App() {
             channelName={activeChannelName}
             userId={userId}
             username={username}
+            onOpenSidebar={() => setSidebarOpen(true)}
           />
         ) : (
           <div className="empty-state">Select a channel to start chatting</div>

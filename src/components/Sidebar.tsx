@@ -8,11 +8,13 @@ export function Sidebar({
   onSelectChannel,
   username,
   onChangeName,
+  isOpen,
 }: {
   activeChannel: Id<"channels"> | null;
   onSelectChannel: (id: Id<"channels">) => void;
   username: string;
   onChangeName: () => void;
+  isOpen: boolean;
 }) {
   const channels = useQuery(api.channels.list);
   const createChannel = useMutation(api.channels.create);
@@ -20,9 +22,9 @@ export function Sidebar({
   const [showCreate, setShowCreate] = useState(false);
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
       <div className="sidebar-header">
-        <h2>Workshop Forum</h2>
+        <div className="logo">OpenClaw</div>
       </div>
       <nav className="channel-list">
         {channels?.map((ch) => (

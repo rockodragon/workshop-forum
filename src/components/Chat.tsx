@@ -11,11 +11,13 @@ export function Chat({
   channelName,
   userId,
   username,
+  onOpenSidebar,
 }: {
   channelId: Id<"channels">;
   channelName: string;
   userId: string;
   username: string;
+  onOpenSidebar: () => void;
 }) {
   const messages = useQuery(api.messages.list, { channelId });
   const [threadParent, setThreadParent] = useState<Id<"messages"> | null>(null);
@@ -33,6 +35,9 @@ export function Chat({
     <div className="chat-layout">
       <div className={`chat ${threadParent ? "chat-narrow" : ""}`}>
         <div className="chat-header">
+          <button className="menu-btn" onClick={onOpenSidebar}>
+            ☰
+          </button>
           <h3>
             <span className="hash">#</span> {channelName}
           </h3>
