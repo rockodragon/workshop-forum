@@ -22,6 +22,7 @@ export function Message({
   const toggleReaction = useMutation(api.reactions.toggle);
   const replies = useQuery(api.messages.replies, { parentId: message._id });
   const updateMessage = useMutation(api.messages.update);
+  const removeMessage = useMutation(api.messages.remove);
   const fileUrl = useQuery(
     api.messages.getFileUrl,
     message.fileId ? { fileId: message.fileId } : "skip",
@@ -63,15 +64,27 @@ export function Message({
         <span className="time">{time}</span>
         {message.editedAt && <span className="edited">(edited)</span>}
         {isOwn && !editing && (
-          <button
-            className="edit-btn"
-            onClick={() => {
-              setEditBody(message.body);
-              setEditing(true);
-            }}
-          >
-            edit
-          </button>
+          <>
+            <button
+              className="edit-btn"
+              onClick={() => {
+                setEditBody(message.body);
+                setEditing(true);
+              }}
+            >
+              edit
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => {
+                if (confirm("Delete this message?")) {
+                  removeMessage({ messageId: message._id, userId });
+                }
+              }}
+            >
+              delete
+            </button>
+          </>
         )}
       </div>
       {editing ? (
@@ -93,6 +106,27 @@ export function Message({
         </div>
       ) : (
         <div className="message-body">{renderBody(message.body)}</div>
+      )}
+      {message.ogData && (
+        <a
+          href={message.ogData.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="og-card"
+        >
+          {message.ogData.image && (
+            <img src={message.ogData.image} alt="" className="og-image" />
+          )}
+          <div className="og-text">
+            {message.ogData.title && (
+              <div className="og-title">{message.ogData.title}</div>
+            )}
+            {message.ogData.description && (
+              <div className="og-description">{message.ogData.description}</div>
+            )}
+            <div className="og-url">{message.ogData.url}</div>
+          </div>
+        </a>
       )}
       {message.imageUrl && (
         <img

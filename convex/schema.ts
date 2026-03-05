@@ -16,6 +16,14 @@ export default defineSchema({
     imageUrl: v.optional(v.string()), // optional image/link URL
     fileId: v.optional(v.id("_storage")), // uploaded file
     fileName: v.optional(v.string()),
+    ogData: v.optional(
+      v.object({
+        url: v.string(),
+        title: v.optional(v.string()),
+        description: v.optional(v.string()),
+        image: v.optional(v.string()),
+      }),
+    ),
     editedAt: v.optional(v.number()),
     createdAt: v.number(),
   })

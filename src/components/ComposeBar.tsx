@@ -54,15 +54,18 @@ export function ComposeBar({
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!body.trim() && !pendingFile) return;
-    await send({
+    const args: Parameters<typeof send>[0] = {
       channelId,
-      parentId,
       userId,
       author: username,
       body: body.trim() || (pendingFile ? pendingFile.name : ""),
-      fileId: pendingFile?.id,
-      fileName: pendingFile?.name,
-    });
+    };
+    if (parentId) args.parentId = parentId;
+    if (pendingFile) {
+      args.fileId = pendingFile.id;
+      args.fileName = pendingFile.name;
+    }
+    await send(args);
     setBody("");
     setPendingFile(null);
   };
